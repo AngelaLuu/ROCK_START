@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="{{url_for('static', filename='./css/registro.css')}}">
+    <div class="registro">
+        <form class=form action="/registro" method="POST">
+<form class="form">
+    <p class="title">Registro </p>
+    <p class="message">Signup now and get full access to our app. </p>
+        <div class="flex">
+        <label>
+            <input class="input" type="text" placeholder="" name="nombre">
+            <span>Nombre</span>
+        </label>
+
+        <label>
+            <input class="input" type="text" placeholder="" name="apellido">
+            <span>Apellido</span>
+        </label>
+    </div>  
+            
+    <label>
+        <input class="input" type="email" placeholder="" name="correo">
+        <span>Correo</span>
+    </label> 
+
+    <label>
+        <input class="input" type="email" placeholder="" name="documeto">
+        <span>Documento</span>
+    </label> 
+        
+    <label>
+        <input class="input" type="password" placeholder="" required="admin_password">
+        <span>Password</span>
+    </label>
+
+    <button class="submit">Submit</button>
+    <p class="signin">Already have an acount ? <a href="formulario.html">Signin</a> </p>
+</form>
