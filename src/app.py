@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, Response
+from flask import Flask, render_template, request, redirect, url_for, session, Response, flash
 import os 
 import database as db
+import uuid
 from notifypy import Notify
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
@@ -86,8 +87,9 @@ def registro():
         documento = request.form['documento']
 
         cursor = db.database.cursor()
-        cursor.execute("INSERT INTO Administrador (nombre, correo, admin_password, documento) VALUES (%s,%s,%s,%s)", (nombre, correo, admin_password, documento,))
+        cursor.execute("INSERT INTO Administrador (nombre, correo, admin_password, documento) VALUES (%s,%s,%s,%s)", (nombre, correo, admin_password,documento))
         db.database.commit()
+
         return redirect(url_for('login'))
 
 
@@ -114,14 +116,21 @@ def addProduct():
     descripcion = request.form['descripcion']
     precio = request.form['precio']
     cantidad = request.form['cantidad']
-    imagen = request.form['imagen']
+    #img=str(uuid.uuid4())+'.png'
+    #imagen = request.form['imagen']
+    #ruta_imagen = os.path.abspath('src\\static\\images')
+    #imagen.save(os.path.join(ruta_imagen,img))  
 
-    if nombre and descripcion and precio and cantidad and imagen:
+    if nombre and descripcion and precio and cantidad:
         cursor = db.database.cursor()
-        sql = "insert into Productos (nombre, descripcion, precio, cantidad, imagen) values (%s, %s, %s, %s, %s)"
-        data = (nombre, descripcion, precio, cantidad, imagen)
+        sql = "insert into Productos (nombre, descripcion, precio, cantidad) values (%s, %s, %s, %s)"
+        data = (nombre, descripcion, precio, cantidad)
         cursor.execute(sql, data)
         db.database.commit()
+    
+
+        flash('El producto se ha guardado correctamente ')
+
     return redirect(url_for('crud'))
 
 @app.route('/delete/<string:id>' )
