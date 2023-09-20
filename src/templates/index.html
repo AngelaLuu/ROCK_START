@@ -3,19 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CRUD</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
 <body>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Cerrar Sesion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/login">Volver</a>
+          </li>
+    </ul>
 
+    {%with messages = get_flashed_messages()%}
+    {% if messages %}
+        {% for message  in messages  %}
+        <div class='alert alert-success ml-3 mr-3'>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <strong></strong>{{message}}
+                        
+         </div>
+
+        {% endfor %}    
+
+      {% endif %}
+     {%endwith%}
+    
     <h1 class="text-center mt-5 nb-5 text-primary"> CRUD :D </h1>
 
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <form action="/products" method="POST">
+                <form action="/products" method="POST" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="col">
                             <label>Nombre</label>
@@ -33,10 +55,14 @@
                             <label>cantidad</label>
                             <input type="text" class="form-control mb-3" name="cantidad">
                         </div>
-                        <div class="col">
-                            <label>imagen</label>
+                        <!--<div class="col">
+                            <label>Imagen</label>
                             <input type="text" class="form-control mb-3" name="imagen">
-                        </div>
+                        </div>  
+                        <div class="col">       
+                            <label>imagen</label>
+                            <input type="file" class="form-control mb-3" name="imagen" accept="image/png" required>
+                        </div> -->
                         <div class="col">
                             <button class="btn btn-primary mb-3 mt-4" type="submit">Agregar</button>
                         </div>
@@ -51,7 +77,7 @@
                         <th scope="col">Descripcion</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
-                        <th scope="col">Imagen</th>
+                        <!--<th scope="col">Imagen</th>-->
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                     </thead>
@@ -64,7 +90,7 @@
                     <td>{{d.descripcion}}</td>
                     <td>{{d.precio}}</td>
                     <td>{{d.cantidad}}</td>
-                    <td>{{d.imagen}}</td>
+                    <!--<td>{{d.imagen}}</td>-->
                     <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{d.id}}" id="btn-edit{{d.id}}">Editar</button></td>
                     <td><a href="{{url_for('deleteProduct', id=d.id)}}" class="btn btn-danger btn-sm">Eliminar</a></td>
                     
@@ -80,7 +106,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/edit/{{d.id}}" method="POST">
+                            <form action="/edit/{{d.id}}" method="POST" enctype="multipart/form-data">
                                 <label>Nombre</label>
                                 <input type="text" class="form-control mb-3" name="nombre" value="{{d.nombre}}">
                                 <label>Descripcion</label>
@@ -89,14 +115,19 @@
                                 <input type="text" class="form-control mb-3" name="precio" value="{{d.precio}}">
                                 <label>Cantidad</label>
                                 <input type="text" class="form-control mb-3" name="cantidad" value="{{d.cantidad}}">
-                                <label>Imagen</label>
-                                <input type="text" class="form-control mb-3" name="imagen" value="{{d.imagen}}">
+                                <!--<label>Imagen</label>-->
+                                
+                                <input type="text" name="imagen" value="{{imagen}}">        
+                                <!-- <img id="imgu" src="../static/images/{{imagen}}" width="190" height="100px" alt="" >
+                            </div>
+                                <input type="file" name="imagen" id="imagen" onchange="mostrar()" accept="image/png" required> -->
+                            
                             </div>
                             <button type="submit" class="btn-btn-primary">Guardar</button>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div>  
                       </form>
                           
                   

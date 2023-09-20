@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, Response, flash
 import os 
 import database as db
-import uuid
 from notifypy import Notify
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
@@ -18,13 +17,13 @@ app = Flask(__name__, template_folder= template_dir)
 def home():
     return render_template('layout.html')    
 
-@app.route('/form')
+@app.route('/catalogo')
 def form():
-    return render_template('asd.html')
+    return render_template('catalogo.html')
 
-@app.route('/crudd')
+@app.route('/carrito')
 def crudd():
-    return render_template('index.html')
+    return render_template('carrito.html')
 
 
 @app.route('/login', methods= ["GET", "POST"])
@@ -87,9 +86,8 @@ def registro():
         documento = request.form['documento']
 
         cursor = db.database.cursor()
-        cursor.execute("INSERT INTO Administrador (nombre, correo, admin_password, documento) VALUES (%s,%s,%s,%s)", (nombre, correo, admin_password,documento))
+        cursor.execute("INSERT INTO Administrador (nombre, correo, admin_password, documento) VALUES (%s,%s,%s,%s)", (nombre, correo, admin_password, documento,))
         db.database.commit()
-
         return redirect(url_for('login'))
 
 
@@ -116,10 +114,7 @@ def addProduct():
     descripcion = request.form['descripcion']
     precio = request.form['precio']
     cantidad = request.form['cantidad']
-    #img=str(uuid.uuid4())+'.png'
     #imagen = request.form['imagen']
-    #ruta_imagen = os.path.abspath('src\\static\\images')
-    #imagen.save(os.path.join(ruta_imagen,img))  
 
     if nombre and descripcion and precio and cantidad:
         cursor = db.database.cursor()
@@ -127,10 +122,6 @@ def addProduct():
         data = (nombre, descripcion, precio, cantidad)
         cursor.execute(sql, data)
         db.database.commit()
-    
-
-        flash('El producto se ha guardado correctamente ')
-
     return redirect(url_for('crud'))
 
 @app.route('/delete/<string:id>' )
