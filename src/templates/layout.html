@@ -15,54 +15,26 @@
 </head>
 
 <body>
-  <header>
-    <div class="logo">
-      <img src="../static/img/logo_negro.png" alt="Logo Empresa">
-    </div>
-
-    <div class="header-right">
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-      </div>
-    </div>
-    <div class="admin-icon">
-      <img id="iconoAdmin" src="../static/img/icono_administrador.png" alt="Icono Administrador">
-    </div>
-  </header>
-
+  {% include 'components/header/header.html' %}
   {% include 'components/menu/menu.html' %}
 
 
-  <BR></BR>
-
   <div class="color">
-
-
     <a name="ancla-1"></a>
     <H1>NOVEDADES</H1>
     {% include 'components/novedades/novedades.html' %}
 
 
     {% include 'components/aboutAs/aboutAs.html' %}
-
-    <br><br>
     <hr>
-    <br><br>
 
     <a name="ancla-3"></a>
 
     <h1>EXPERIENCIAS DE CLIENTES</h1>
-    <br>
     {% include 'components/comentarios/comentarios.html' %}
   </div>
 
-  <br>
-  <br>
-
   {% include 'components/footer/footer.html' %}
-
-
   <script src="{{url_for('static', filename='./js/layout.js')}}"></script>
 </body>
 

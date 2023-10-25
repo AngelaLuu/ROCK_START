@@ -1,3 +1,76 @@
+<style>
+  footer {
+    background-color: #5a0600;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .cardd {
+    height: fit-content;
+    background-color: #5a0600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 25px;
+    gap: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.055);
+  }
+
+  /* for all social containers*/
+  .socialContainer {
+    width: 52px;
+    height: 52px;
+    background-color: rgb(94, 45, 45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition-duration: .3s;
+  }
+
+  /* instagram*/
+  .containerOne:hover {
+    background-color: #d62976;
+    transition-duration: .3s;
+  }
+
+  /* twitter*/
+  .containerTwo:hover {
+    background-color: #00acee;
+    transition-duration: .3s;
+  }
+
+  /* Whatsapp*/
+  .containerFour:hover {
+    background-color: #128C7E;
+    transition-duration: .3s;
+  }
+
+  .socialContainer:active {
+    transform: scale(0.9);
+    transition-duration: .3s;
+  }
+
+  .socialSvg {
+    width: 17px;
+  }
+
+  .socialContainer:hover .socialSvg {
+    animation: slide-in-top 0.3s both;
+  }
+
+  .socialSvg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .direccion {
+    margin-bottom: 10px;
+  }
+</style>
+
+
 <footer>
   <div class="cardd">
     <a href="https://instagram.com/rockstarboutiqueshop?igshid=MzRlODBiNWFlZA==" class="socialContainer containerOne">

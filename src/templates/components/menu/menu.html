@@ -1,3 +1,39 @@
+<style>
+  .menu-container {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #5a0600;
+    z-index: 999;
+  }
+
+  .menu {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    /* Distribuye los elementos a lo largo del ancho */
+  }
+
+  .menu-list {
+    font-family: 'Courier New', Courier, monospace;
+    list-style-type: none;
+    padding: 0px;
+    margin: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .menu-item a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .menu-item a:hover {
+    text-decoration: underline;
+  }
+</style>
+
 <div class="menu-container">
   <nav class="menu">
     <ul class="menu-list">
