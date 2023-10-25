@@ -151,6 +151,19 @@ def edit(id):
     return redirect(url_for('crud'))
 
 
+@app.route('/getProducts')
+def getProducts():
+    cursor = db.database.cursor()
+    cursor.execute("SELECT * FROM Productos")
+    myresult = cursor.fetchall()
+    #Convertir los datos a diccionario para obtener las keys de ellos
+    insertObject = []
+    columnNames = [column[0] for column in cursor.description]
+    for record in myresult:
+        insertObject.append(dict(zip(columnNames, record)))
+    cursor.close()
+
+    return insertObject
 
 if __name__ == '__main__':
     app.secret_key = "LuLu"

@@ -686,6 +686,16 @@ let productos = [
 
 ];
 
+fetch('http://127.0.0.1:4000/getProducts')
+.then(response => response.json())
+.then(productos => {
+    console.log('obteniendo productos', productos);
+    // cargarProductos(productos)
+}).catch(error => {
+    console.log('soy un error al obtener productos', error);
+})
+
+
 fetch("./js/productos.json")
     .then(response => response.json())
     .then(data => {
