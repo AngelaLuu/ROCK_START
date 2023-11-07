@@ -25,6 +25,11 @@ def form():
 def crudd():
     return render_template('carrito.html')
 
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+
 
 @app.route('/login', methods= ["GET", "POST"])
 def login():
@@ -37,10 +42,10 @@ def login():
 
         cursor = db.database.cursor()
         #cursor.execute("SELECT * FROM Administrador WHERE correo=%s and admin_password=%s",(correo, admin_password))
-        cursor.execute("SELECT * FROM Administrador WHERE correo=%s ",(correo,))
+        cursor.execute("SELECT * FROM Administrador WHERE correo=%s ",(correo, ))
 
         admins = cursor.fetchone()
-        nombres_columnas = [columna[0] for columna in cursor.description]
+        nombres_columnas = [columna[0] for columna in cursor.description]   
         admin_dict = dict(zip(nombres_columnas, admins))
         cursor.close()
 
@@ -50,7 +55,7 @@ def login():
                 session['nombre'] = admin_dict['nombre']
                 session['correo'] = admin_dict['correo']
 
-                return render_template('index.html')
+                return render_template('admin.html')
 
 
             else:
@@ -107,6 +112,7 @@ def crud():
 
     return render_template('index.html', data=insertObject)
 
+
 #Ruta pa guardar productos
 @app.route('/products', methods=['POST'])
 def addProduct():
@@ -114,16 +120,18 @@ def addProduct():
     descripcion = request.form['descripcion']
     precio = request.form['precio']
     cantidad = request.form['cantidad']
-    #imagen = request.form['imagen']
+    stock = request.form['stock']
+    imagen = request.form['imagen']
 
-    if nombre and descripcion and precio and cantidad:
+    if nombre and descripcion and precio and cantidad and imagen and stock:
         cursor = db.database.cursor()
-        sql = "insert into Productos (nombre, descripcion, precio, cantidad) values (%s, %s, %s, %s)"
-        data = (nombre, descripcion, precio, cantidad)
+        sql = "insert into Productos (nombre, descripcion, precio, cantidad, imagen) values (%s, %s, %s, %s, %s, %s)"
+        data = (nombre, descripcion, precio, cantidad, imagen, stock)
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('crud'))
 
+#ELIMINAR PRODUCTOS
 @app.route('/delete/<string:id>' )
 def deleteProduct(id):
         cursor = db.database.cursor()
@@ -133,19 +141,21 @@ def deleteProduct(id):
         db.database.commit()
         return redirect(url_for('crud'))
 
+#EDITAR PRODUCTOS
 @app.route('/edit/<string:id>', methods=['POST'])
 def edit(id):
     nombre = request.form['nombre']
     descripcion = request.form['descripcion']
     precio = request.form['precio']
     cantidad = request.form['cantidad']
+    stock = request.form['stock']
     imagen = request.form['imagen']
 
 
-    if nombre and descripcion and precio and cantidad and imagen:
+    if nombre and descripcion and precio and cantidad and imagen and stock:
         cursor = db.database.cursor()
-        sql = "update Productos set nombre= %s, descripcion= %s, precio= %s, cantidad= %s, imagen= %s where id= %s "
-        data = (nombre, descripcion, precio, cantidad, imagen, id)
+        sql = "update Productos set nombre= %s, descripcion= %s, precio= %s, cantidad= %s, imagen= %s, stock= %s where id= %s "
+        data = (nombre, descripcion, precio, cantidad, imagen, stock, id)
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('crud'))
@@ -164,6 +174,78 @@ def getProducts():
     cursor.close()
 
     return insertObject
+
+
+#PEDIDOS
+@app.route('/pedidos')
+def pedidos():
+    cursor = db.database.cursor()
+    cursor.execute("SELECT * FROM Pedidos")
+    myresult = cursor.fetchall()
+    #Convertir los datos a diccionario para obtener las keys de ellos
+    insertObject = []
+    columnNames = [column[0] for column in cursor.description]
+    for record in myresult:
+        insertObject.append(dict(zip(columnNames, record)))
+    cursor.close()
+
+    #return insertObject
+    return render_template('pedido.html', data=insertObject)
+
+
+#AGREGAR PEDIDOS CON EL FORMULARIO DE COMPRA
+@app.route('/addpedido', methods=['POST', 'GET'])
+def addPedido():
+
+    if request.method == 'GET':
+        return render_template('carrito.html' )
+
+    else:
+        nombre_cliente = request.form['nombre_cliente']
+        direccion_cliente = request.form['direccion_cliente']
+        numero_cliente = request.form['numero_cliente']
+        talla = request.form['talla']
+        metodo_pago = request.form['metodo_pago']
+
+        cursor = db.database.cursor()
+        sql = "insert into Pedidos (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago) values (%s, %s, %s, %s, %s)"
+        data = (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago)
+        cursor.execute(sql, data)
+        db.database.commit()
+    return redirect(url_for('catalogo.html'))
+
+
+#ELIMINAR PEDIDO POR ID
+@app.route('/delete/<string:id>' )
+def deletePedido(id):
+        cursor = db.database.cursor()
+        sql = "delete from Pedidos where id=%s "
+        data = (id,)
+        cursor.execute(sql, data)
+        db.database.commit()
+        return redirect(url_for('admin.html'))
+
+#EDITAR PEDIDO POR ID
+@app.route('/edit/<string:id>', methods=['POST'])
+def editPedido(id):
+    nombre_cliente = request.form['nombre_cliente']
+    direccion_cliente = request.form['direccion_cliente']
+    numero_cliente = request.form['numero_cliente']
+    talla = request.form['talla']
+    metodo_pago = request.form['metodo_pago']
+
+    if nombre_cliente and direccion_cliente and numero_cliente and talla and metodo_pago:
+        cursor = db.database.cursor()
+        sql = "update Productos set nombre_cliente= %s, direccion_cliente= %s, numero_cliente= %s, talla= %s, metodo_pago= %s where id= %s "
+        data = (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago, id)
+        cursor.execute(sql, data)
+        db.database.commit()
+    return redirect(url_for('admin.html'))
+
+
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = "LuLu"

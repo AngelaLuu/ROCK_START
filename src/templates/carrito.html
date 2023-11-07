@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='./css/main.css')}}">
 </head>
+
 <body>
 
     <div class="wrapper">
@@ -64,16 +66,48 @@
                         <button id="carrito-acciones-comprar" class="carrito-acciones-comprar">Comprar ahora</button>
                     </div>
                 </div>
+            
+                
 
-                <p id="carrito-comprado" class="carrito-comprado disabled">Muchas gracias por tu compra. <i class="bi bi-emoji-laughing"></i></p>
+                <p form action="/addpedido" method="POST" id="carrito-comprado" class="carrito-comprado disabled">
+                <h1>DATOS DEL CLIENTES</h1>
+                <input type="text" placeholder="Nombre" name="nombre_cliente">
+                <input type="email" placeholder="Celular" name="numero_cliente">
+                <input type="text" placeholder="Direccion" name="direccion_cliente">
+
+
+                <p class="link"> SELECCIONAR UNA TALLA</p>
+                <center><select id="talla" name="talla">
+                        <option value="Talla xxs">XXS</option>
+                        <option value="Talla xs">XS</option>
+                        <option value="Talla s">S</option>
+                        <option value="Talla M">M</option>
+                        <option value="Talla L">L</option>
+                        <option value="Talla xl">XL</option>
+                </center>
+                </select>
+
+                <p class="link"> METODO DE PAGO</p>
+                <center><select id="metodo_pago" name="metodo_pago">
+                        <option value="NEQUI">NEQUI</option>
+                        <option value="CONTRAENTREGA">CONTRAENTREGA</option>
+                        <option value="RECOGER EN TIENDA">RECOGER EN TIENDA</option>
+                </center>
+                </select>
+                <button type="submit">ENVIAR</button>
+
+
+                <i class="bi bi-emoji-laughing"></i></p>
+                </form>
 
             </div>
         </main>
     </div>
-    
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{url_for('static', filename='./js/carrito.js')}}"></script>
     <script src="{{url_for('static', filename='./js/menu.js')}}"></script>
 </body>
+
 </html>

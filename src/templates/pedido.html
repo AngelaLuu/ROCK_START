@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Cerrar Sesion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin">Volver</a>
+        </li>
+    </ul>
+
+    {%with messages = get_flashed_messages()%}
+    {% if messages %}
+    {% for message in messages %}
+    <div class='alert alert-success ml-3 mr-3'>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong></strong>{{message}}
+
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+    {%endwith%}
+
+
+
+
+
+
+    <h1 class="text-center mt-5 nb-5 text-primary"> PEDIDOS </h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Talla</th>
+            <th scope="col">Metodo_Pago</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+        </thead>
+
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d.id}}</td>
+                <td>{{d.nombre_cliente}}</td>
+                <td>{{d.direccion_cliente}}</td>
+                <td>{{d.numero_cliente}}</td>
+                <td>{{d.talla}}</td>
+                <td>{{d.metodo_pago}}</td>
+                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modal{{d.id}}" id="btn-edit{{d.id}}">Editar</button></td>
+                <td><a href="{{url_for('deletePedido', id=d.id)}}"
+                        class="btn btn-danger btn-sm">Eliminar</a></td>
+
+            </tr>
+
+            <!-- llamar al modal-->
+
+            <div class="modal fade" id="modal{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de Empleado</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/edit/{{d.id}}" method="POST" enctype="multipart/form-data">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control mb-3" name="nombre_cliente"
+                                    value="{{d.nombre_cliente}}">
+                                <label>Direccion</label>
+                                <input type="text" class="form-control mb-3" name="direccion_cliente"
+                                    value="{{d.direccion_cliente}}">
+                                <label>Numero</label>
+                                <input type="text" class="form-control mb-3" name="numero_cliente"
+                                    value="{{d.numero_cliente}}">
+                                <label>Talla</label>
+                                <input type="text" class="form-control mb-3" name="talla"
+                                    value="{{d.talla}}">
+                                <label>Metodo_Pago</label>
+                                <input type="text" class="form-control mb-3" name="metodo_pago"
+                                    value="{{d.metodo_pago}}">
+        
+                </div>
+                        </div>
+                        <button type="submit" class="btn-btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+</div>
+</form>
+</div>
+<div class="modal-foot">
+
+    {% endfor%}
+
+
+    </tbody>
+    </table>
+
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+crossorigin="anonymous"></script>
+</body>
+
+</html>
