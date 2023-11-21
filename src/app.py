@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, Response, flash
 import os 
 import database as db
-from notifypy import Notify
+# from notifypy import Notify
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 template_dir = os.path.join(template_dir, 'src', 'templates')
@@ -34,7 +34,7 @@ def admin():
 @app.route('/login', methods= ["GET", "POST"])
 def login():
 
-    notificacion = Notify()
+    # notificacion = Notify()
 
     if request.method == 'POST':
         correo = request.form['correo']
@@ -59,14 +59,14 @@ def login():
 
 
             else:
-                notificacion.title = "Error de Acceso"
-                notificacion.message="Correo o contraseña no valida"
-                notificacion.send()
+                # notificacion.title = "Error de Acceso"
+                # notificacion.message="Correo o contraseña no valida"
+                # notificacion.send()
                 return render_template('login.html')
         else:
-            notificacion.title = "Error de Acceso"
-            notificacion.message="No existe el usuario"
-            notificacion.send()
+            # notificacion.title = "Error de Acceso"
+            # notificacion.message="No existe el usuario"
+            # notificacion.send()
             return render_template('login.html')
         
     else:
@@ -112,6 +112,9 @@ def crud():
 
     return render_template('index.html', data=insertObject)
 
+
+
+# ------------------------------------------------ SERVICIOS DE PRODUCTOS------------------------------------------------
 
 #Ruta pa guardar productos
 @app.route('/products', methods=['POST'])
@@ -175,6 +178,11 @@ def getProducts():
 
     return insertObject
 
+# ------------------------------------------------ SERVICIOS DE PRODUCTOS------------------------------------------------
+
+
+
+# ------------------------------------------------ SERVICIOS DE PEDIDOS------------------------------------------------
 
 #PEDIDOS
 @app.route('/pedidos')
@@ -243,6 +251,8 @@ def editPedido(id):
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('admin.html'))
+
+# ------------------------------------------------ SERVICIOS DE PEDIDOS------------------------------------------------
 
 
 
