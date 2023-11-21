@@ -57,17 +57,17 @@
         </thead>
 
         <tbody>
-            {% for d in data %}
+            {% for p in data %}
             <tr>
-                <td>{{d.id}}</td>
-                <td>{{d.nombre_cliente}}</td>
-                <td>{{d.direccion_cliente}}</td>
-                <td>{{d.numero_cliente}}</td>
-                <td>{{d.talla}}</td>
-                <td>{{d.metodo_pago}}</td>
+                <td>{{p.id}}</td>
+                <td>{{p.nombre_cliente}}</td>
+                <td>{{p.direccion_cliente}}</td>
+                <td>{{p.numero_cliente}}</td>
+                <td>{{p.talla}}</td>
+                <td>{{p.metodo_pago}}</td>
                 <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modal{{d.id}}" id="btn-edit{{d.id}}">Editar</button></td>
-                <td><a href="{{url_for('deletePedido', id=d.id)}}"
+                        data-bs-target="#modal{{p.id}}" id="btn-edit{{p.id}}">Editar</button></td>
+                <td><a href="{{url_for('deletePedido', id=p.id)}}"
                         class="btn btn-danger btn-sm">Eliminar</a></td>
 
             </tr>
