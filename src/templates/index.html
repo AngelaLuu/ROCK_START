@@ -51,7 +51,7 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <form action="/products" method="POST" enctype="multipart/form-data">
+                <form action="/products" id="myForm" method="POST" onsubmit="beforeSubmit(event)">
                     <div class="row mb-3">
                         <div class="col">
                             <label>Nombre</label>
@@ -77,62 +77,77 @@
                             <label>stock</label>
                             <input type="text" class="form-control mb-3" name="stock">
                         </div>
-                        <div class="col">       
+                        <div class="col">
                             <label>imagen</label>
-                            <input type="file" id="fileInput" class="form-control mb-3" name="imagen" accept="image/png" required>
-                        </div> 
+                            <input type="file" id="fileInputImage" class="form-control mb-3" name="imagenFile"
+                            accept="image/*" required>
+                            <input type="text" hidden id="imagen" class="form-control mb-3" name="imagen">
+                        </div>
                         <div class="col">
                             <button id="uploadButton" class="btn btn-primary mb-3 mt-4" type="submit">Agregar</button>
                         </div>
                 </form>
+
+
                 <script>
-                    document.getElementById('uploadButton').addEventListener('click', uploadFile);
-                        async function uploadFile() {
-                            // Obtener el elemento de input de archivo
-                            var fileInput = document.getElementById('fileInput');
-                
-                            // Obtener el archivo seleccionado
-                            //OBTENER CONEXION CON EL BACKEND
-                            var file = fileInput.files[0];
-                            const host = "http://localhost:3002/api"; //"http://localhost:4000/api/getProducts"
-                            const uploadResponse = await fetch(host + "/upload", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                    folder: "Rock_Star",
-                                    contentType: file.type, //esto retorna el tipo del archivo(png, jpeg, mp4)
-                                }),
-                            });
-                
-                            const { data: uploadData, url_download } = await uploadResponse.json();
-                
-                            //AQUI EMPIEZA PETICION A AWS (GUARDAR IMAGEN)
-                            if (!url_download || !uploadData.url) return failRequest();
-                            const formData = new FormData();
-                            Object.entries(uploadData.fields).forEach(([field, value]) => {
-                                formData.append(field, value);
-                            });
-                            formData.append("file", file);
-                           
-                
-                            // Hacer una solicitud fetch al servidor
-                             fetch(uploadData.url, {
-                                method: 'POST',
-                                body: formData
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    // Manejar la respuesta del servidor
-                                    console.log('Respuesta del servidor:', data);
-                                })
-                                .catch(error => {
-                                    // Manejar errores
-                                    console.error('Error al realizar la petición:', error);
-                                }); 
-                        } 
-                    </script>
+
+                    function beforeSubmit(event) {
+                        event.preventDefault();
+                        const fileInputImage = document.getElementById('fileInputImage');
+                        Promise.resolve(uploadFile(fileInputImage.files[0])).then(_e => {
+                            document.getElementById('myForm').elements['imagen'].value = _e;
+                            document.getElementById('myForm').submit();
+                        })
+                    }
+
+                    // document.getElementById('uploadButton').addEventListener('click', uploadFile);
+                    async function uploadFile(file) {
+                        const responseee = await requestPost({
+                            files_data: [{
+                                id: file?.lastModified,
+                                folder: `angela/productos`,
+                                contentType: file?.type
+                            }]
+                        });
+
+                        const uploadData = responseee.data[0].data
+                        const url_download = responseee.data[0].url_download
+
+                        const formData = new FormData();
+                        Object.entries(uploadData.fields).forEach(([field, value]) => {
+                            formData.append(field, value);
+                        });
+                        formData.append("file", file);
+
+
+                        // Hacer una solicitud fetch al servidor
+                        const uploadFile = await fetch(uploadData.url, {
+                            method: 'POST',
+                            body: formData
+                        })
+
+                        return url_download;
+                    }
+
+                    async function requestPost(data = {}) {
+                        //@INFO endpoint para obtener firma
+                        const host = "https://maps-group.onrender.com/api/upload/generate-presigned-free";
+
+                        let options = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        }
+
+                        const response = await fetch(host, options)
+                        const data_response = await response.json();
+
+                        return {
+                            ...data_response,
+                            status: response.status
+                        }
+                    }
+                </script>
                 <!-- Tabla:p-->
 
                 <table class="table table-bordered">
@@ -157,7 +172,7 @@
                             <td>{{d.precio}}</td>
                             <td>{{d.cantidad}}</td>
                             <td>{{d.stock}}</td>
-                            <td>{{d.imagen}}</td>
+                            <td> <img width="100" height="100" src="{{d.imagen}}" alt=""></td>
                             <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#modal{{d.id}}" id="btn-edit{{d.id}}">Editar</button></td>
                             <td><a href="{{url_for('deleteProduct', id=d.id)}}"
@@ -195,30 +210,31 @@
                                                 value="{{d.stock}}">
                                             <label>Imagen</label>
                                             <input type="file" name="imagen" value="{{imagen}}">
-                                            <img id="imgu" src="{{d.imagen}}" width="190" height="100px" alt="" >
-                            </div>
-                                <input type="file" name="imagen" id="imagen" onchange="mostrar()" accept="image/png" required> 
-
+                                            <img id="imgu" src="{{d.imagen}}" width="190" height="100px" alt="">
                                     </div>
-                                    <button type="submit" class="btn-btn-primary">Guardar</button>
+                                    <input type="file" name="imagen" id="imagen" onchange="mostrar()" accept="image/png"
+                                        required>
+
                                 </div>
+                                <button type="submit" class="btn-btn-primary">Guardar</button>
                             </div>
                         </div>
             </div>
-            </form>
-
-
-
         </div>
-        <div class="modal-foot">
-
-            {% endfor%}
+        </form>
 
 
-            </tbody>
-            </table>
 
-        </div>
+    </div>
+    <div class="modal-foot">
+
+        {% endfor%}
+
+
+        </tbody>
+        </table>
+
+    </div>
     </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>

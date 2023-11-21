@@ -128,7 +128,7 @@ def addProduct():
 
     if nombre and descripcion and precio and cantidad and imagen and stock:
         cursor = db.database.cursor()
-        sql = "insert into Productos (nombre, descripcion, precio, cantidad, imagen) values (%s, %s, %s, %s, %s, %s)"
+        sql = "insert into Productos (nombre, descripcion, precio, cantidad, imagen, stock) values (%s, %s, %s, %s, %s, %s)"
         data = (nombre, descripcion, precio, cantidad, imagen, stock)
         cursor.execute(sql, data)
         db.database.commit()
@@ -212,14 +212,33 @@ def addPedido():
         nombre_cliente = request.form['nombre_cliente']
         direccion_cliente = request.form['direccion_cliente']
         numero_cliente = request.form['numero_cliente']
-        #talla = request.form['talla']
         metodo_pago = request.form['metodo_pago']
 
+        #! soy una alerta
+        #* bañese negra
+        # ? jummmp
+        #TODO obtener los productos que el cliente esta comprando
+        # productos = [{id_producto: 1, cantidad: 10, talla: 'XL', precio: 1234},{id_producto: 2, cantidad: 1, talla: 'XL', precio: 2345}]
+
+        # Paso 1: crear pedido
         cursor = db.database.cursor()
         sql = "insert into Pedidos (nombre_cliente, direccion_envio, numero_cliente, metodo_pago) values (%s, %s, %s, %s)"
         data = (nombre_cliente, direccion_cliente, numero_cliente, metodo_pago)
         cursor.execute(sql, data)
         db.database.commit()
+
+
+        # Paso 2: Obtener id del pedido creado anteriormente
+        id_pedido = 1
+
+
+        # Paso 3: Insertar los productos al detalle del pedido 
+        # cursor = db.database.cursor()
+        # sql = "insert into Detalle_Pedidos (nombre_cliente, direccion_envio, numero_cliente, metodo_pago) values (%s, %s, %s, %s)"
+        # data = (nombre_cliente, direccion_cliente, numero_cliente, metodo_pago)
+        # cursor.execute(sql, data)
+        # db.database.commit()
+
     #return redirect(url_for('catalogo.html'))
         return render_template('catalogo.html' )
 

@@ -67,17 +67,18 @@
                         <button id="carrito-acciones-comprar" class="carrito-acciones-comprar">Comprar ahora</button>
                     </div>
                 </div>
-            
-                
-
-                <form action="/addpedido" method="POST" id="carrito-comprado" class="carrito-comprado disabled">
-                <h1>DATOS DEL CLIENTES</h1>
-                <input type="text" placeholder="Nombre" name="nombre_cliente">
-                <input type="text" placeholder="Celular" name="numero_cliente">
-                <input type="text" placeholder="Direccion" name="direccion_cliente">
 
 
-                <!-- <p class="link"> SELECCIONAR UNA TALLA</p>
+
+                <form action="/addpedido" method="POST" id="carrito-comprado" class="carrito-comprado disabled"
+                    onsubmit="beforeSubmit(event)">
+                    <h1>DATOS DEL CLIENTES</h1>
+                    <input type="text" placeholder="Nombre" name="nombre_cliente">
+                    <input type="text" placeholder="Celular" name="numero_cliente">
+                    <input type="text" placeholder="Direccion" name="direccion_cliente">
+
+
+                    <!-- <p class="link"> SELECCIONAR UNA TALLA</p>
                 <center><select id="talla" name="talla">
                         <option value="Talla xxs">XXS</option>
                         <option value="Talla xs">XS</option>
@@ -88,22 +89,42 @@
                 </center>
                 </select> -->
 
-                <p class="link"> METODO DE PAGO</p>
-                <center><select id="metodo_pago" name="metodo_pago">
-                        <option value="NEQUI">NEQUI</option>
-                        <option value="CONTRAENTREGA">CONTRAENTREGA</option>
-                        <option value="RECOGER EN TIENDA">RECOGER EN TIENDA</option>
-                </center>
-                </select>
-                <button type="submit">ENVIAR</button>
+                    <p class="link"> METODO DE PAGO</p>
+                    <center><select id="metodo_pago" name="metodo_pago">
+                            <option value="NEQUI">NEQUI</option>
+                            <option value="CONTRAENTREGA">CONTRAENTREGA</option>
+                            <option value="RECOGER EN TIENDA">RECOGER EN TIENDA</option>
+                    </center>
+                    </select>
+                    <button type="submit">ENVIAR</button>
 
 
-                <i class="bi bi-emoji-laughing"></i></p>
+                    <i class="bi bi-emoji-laughing"></i></p>
                 </form>
 
             </div>
         </main>
     </div>
+
+    <script>
+
+        function beforeSubmit(event) {
+            event.preventDefault(); //Esto evita que se envie el formulario al back
+
+            //TODO obtener los productos del carrito de compras y enviarlos al back
+            // const productos = JSON.parse(localStorage.getItem('productos-en-carrito'))
+            // document.getElementById('myForm').elements['imagen'].value = _e; //esto cambia el valor de un input
+            
+            // fetch('/pedidos', {
+            //     method: 'POST',
+            //     body: {
+            //         nombre_cliente: document.getElementById('myForm').elements['nombre_cliente'].value,
+            //         direccion_cliente: document.getElementById('myForm').elements['direccion_cliente'].value,
+            //     }
+            // })
+            document.getElementById('myForm').submit(); //Esto envia el formulario al back
+        }
+    </script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

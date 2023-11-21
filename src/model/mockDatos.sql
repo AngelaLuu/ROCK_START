@@ -42,7 +42,7 @@ CREATE TABLE Detalle_Pedidos (
 
 
 
-insert into Productos (nombre, descripcion, precio, cantidad) values ('camisa', 'Camisa naranja talla XL', 50.000, 1);
+insert into Productos (nombre, descripcion, precio, cantidad) values ('camisa', 'Camisa naranja talla XL', 50000, 1);
 insert into Administrador (nombre, correo, admin_password, documento) values ('Angela', 'angelht2601@gmail.com', '123456', 1021670176);
 
 
