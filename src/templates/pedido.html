@@ -74,7 +74,7 @@
 
             <!-- llamar al modal-->
 
-            <div class="modal fade" id="modal{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="modal{{p.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -84,22 +84,22 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/edit/{{d.id}}" method="POST" enctype="multipart/form-data">
+                            <form action="/edit/{{p.id}}" method="POST" enctype="multipart/form-data">
                                 <label>Nombre</label>
                                 <input type="text" class="form-control mb-3" name="nombre_cliente"
-                                    value="{{d.nombre_cliente}}">
+                                    value="{{p.nombre_cliente}}">
                                 <label>Direccion</label>
                                 <input type="text" class="form-control mb-3" name="direccion_cliente"
-                                    value="{{d.direccion_cliente}}">
+                                    value="{{p.direccion_cliente}}">
                                 <label>Numero</label>
                                 <input type="text" class="form-control mb-3" name="numero_cliente"
-                                    value="{{d.numero_cliente}}">
+                                    value="{{p.numero_cliente}}">
                                 <label>Talla</label>
                                 <input type="text" class="form-control mb-3" name="talla"
-                                    value="{{d.talla}}">
+                                    value="{{p.talla}}">
                                 <label>Metodo_Pago</label>
                                 <input type="text" class="form-control mb-3" name="metodo_pago"
-                                    value="{{d.metodo_pago}}">
+                                    value="{{p.metodo_pago}}">
         
                 </div>
                         </div>
