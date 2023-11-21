@@ -204,7 +204,7 @@ def addPedido():
         nombre_cliente = request.form['nombre_cliente']
         direccion_cliente = request.form['direccion_cliente']
         numero_cliente = request.form['numero_cliente']
-        talla = request.form['talla']
+        #talla = request.form['talla']
         metodo_pago = request.form['metodo_pago']
 
         cursor = db.database.cursor()
