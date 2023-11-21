@@ -208,11 +208,13 @@ def addPedido():
         metodo_pago = request.form['metodo_pago']
 
         cursor = db.database.cursor()
-        sql = "insert into Pedidos (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago) values (%s, %s, %s, %s, %s)"
-        data = (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago)
+        sql = "insert into Pedidos (nombre_cliente, direccion_envio, numero_cliente, metodo_pago) values (%s, %s, %s, %s)"
+        data = (nombre_cliente, direccion_cliente, numero_cliente, metodo_pago)
         cursor.execute(sql, data)
         db.database.commit()
-    return redirect(url_for('catalogo.html'))
+    #return redirect(url_for('catalogo.html'))
+        return render_template('catalogo.html' )
+
 
 
 #ELIMINAR PEDIDO POR ID
@@ -231,13 +233,13 @@ def editPedido(id):
     nombre_cliente = request.form['nombre_cliente']
     direccion_cliente = request.form['direccion_cliente']
     numero_cliente = request.form['numero_cliente']
-    talla = request.form['talla']
+    #talla = request.form['talla']
     metodo_pago = request.form['metodo_pago']
 
-    if nombre_cliente and direccion_cliente and numero_cliente and talla and metodo_pago:
+    if nombre_cliente and direccion_cliente and numero_cliente and metodo_pago:
         cursor = db.database.cursor()
-        sql = "update Productos set nombre_cliente= %s, direccion_cliente= %s, numero_cliente= %s, talla= %s, metodo_pago= %s where id= %s "
-        data = (nombre_cliente, direccion_cliente, numero_cliente, talla, metodo_pago, id)
+        sql = "update Productos set nombre_cliente= %s, direccion_envio= %s, numero_cliente= %s, metodo_pago= %s where id= %s "
+        data = (nombre_cliente, direccion_cliente, numero_cliente, metodo_pago, id)
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('admin.html'))
